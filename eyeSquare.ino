@@ -424,16 +424,7 @@ bool oledPattern()
   return true;
 }
 
-
-void setup()
-{
-  Serial.begin(115200);
-  i2cInit();
-  delay(100);
-
-  pinMode(0, OUTPUT);
-}
-
+#if 0
 const byte Font5x8_AZ[] =
 {
   0xfc, 0x12, 0x11, 0x12, 0xfc,   // A
@@ -463,9 +454,11 @@ const byte Font5x8_AZ[] =
   0x4f, 0x90, 0x90, 0x90, 0x7e,   // Y
   0xc1, 0xa1, 0x91, 0x89, 0x87,   // Z
 };
-
+#endif
 
 const byte Font5x7_AZaz09[] = {
+  0x00, 0x28, 0x10, 0x28, 0x00,   // nul
+
   0x78, 0x24, 0x22, 0x24, 0x78,   // A
   0x7e, 0x4a, 0x4a, 0x4a, 0x34,   // B
   0x3c, 0x42, 0x42, 0x42, 0x44,   // C
@@ -479,16 +472,16 @@ const byte Font5x7_AZaz09[] = {
   0x7e, 0x10, 0x10, 0x28, 0x44,   // K
   0x7e, 0x40, 0x40, 0x40, 0x00,   // L
   0x7e, 0x04, 0x18, 0x04, 0x7e,   // M
-  0x7e, 0x08, 0x10, 0x20, 0x7c,   // N
-  0xbc, 0x42, 0x42, 0x44, 0x38,   // O
+  0x7e, 0x08, 0x10, 0x20, 0x7e,   // N
+  0x3c, 0x42, 0x42, 0x42, 0x3c,   // O
   0x7e, 0x0a, 0x0a, 0x0a, 0x0c,   // P
   0x3c, 0x42, 0x52, 0x24, 0x58,   // Q
   0x7e, 0x0a, 0x0a, 0x1a, 0x6c,   // R
   0x44, 0x4a, 0x4a, 0x4a, 0x30,   // S
   0x02, 0x02, 0x7e, 0x02, 0x02,   // T
-  0x3e, 0x40, 0x40, 0x40, 0x3c,   // U
-  0x1e, 0x20, 0x40, 0x20, 0x1c,   // V
-  0x3e, 0x20, 0x40, 0x20, 0x1c,   // W
+  0x3e, 0x40, 0x40, 0x40, 0x7e,   // U
+  0x1e, 0x20, 0x40, 0x20, 0x1e,   // V
+  0x3e, 0x20, 0x40, 0x20, 0x1e,   // W
   0x42, 0x24, 0x18, 0x24, 0x42,   // X
   0x06, 0x08, 0x78, 0x08, 0x06,   // Y
   0x42, 0x62, 0x5a, 0x46, 0x42,   // Z
@@ -497,7 +490,7 @@ const byte Font5x7_AZaz09[] = {
   0x7e, 0x44, 0x44, 0x44, 0x38,   // b
   0x38, 0x44, 0x44, 0x44, 0x48,   // c
   0x38, 0x44, 0x44, 0x04, 0x7e,   // d
-  0x38, 0x44, 0x54, 0x54, 0x48,   // e
+  0x38, 0x54, 0x54, 0x54, 0x18,   // e
   0x08, 0x7c, 0x0a, 0x02, 0x00,   // f
   0x98, 0xa4, 0xa4, 0x84, 0x78,   // g
   0x7e, 0x04, 0x04, 0x04, 0x78,   // h
@@ -530,8 +523,135 @@ const byte Font5x7_AZaz09[] = {
   0x02, 0x72, 0x0a, 0x06, 0x02,   // 7
   0x34, 0x4a, 0x4a, 0x4a, 0x34,   // 8
   0x0c, 0x52, 0x52, 0x52, 0x3c,   // 9
-};
+  0x00, 0x28, 0x00, 0x00, 0x00,   // :
+  0x40, 0x28, 0x00, 0x00, 0x00,   // ;
+  0x00, 0x10, 0x28, 0x44, 0x00,   // <
+  0x00, 0x28, 0x28, 0x28, 0x00,   // =
+  0x00, 0x44, 0x28, 0x10, 0x00,   // >
+  0x04, 0x02, 0xb2, 0x12, 0x0c,   // ?
+  0x7c, 0x82, 0xba, 0xa2, 0x1c,   // @
 
+  0x00, 0xde, 0xce, 0x00, 0x00,   // !
+  0x03, 0x00, 0x03, 0x00, 0x00,   // "
+  0x24, 0x7e, 0x24, 0x7e, 0x24,   // #
+  0x50, 0x7c, 0x52, 0x42, 0x44,   // $ (£)
+  0x4c, 0x24, 0x10, 0x48, 0x64,   // %
+  0x34, 0x4a, 0x52, 0x24, 0x50,   // &
+  0x00, 0x03, 0x00, 0x00, 0x00,   // '
+  0x00, 0x3c, 0x42, 0x00, 0x00,   // (
+  0x00, 0x42, 0x3c, 0x00, 0x00,   // )
+  0x10, 0x54, 0x38, 0x54, 0x10,   // *
+  0x10, 0x10, 0x7c, 0x10, 0x10,   // +
+  0x00, 0xa0, 0x60, 0x00, 0x00,   // ,
+  0x10, 0x10, 0x10, 0x10, 0x00,   // -
+  0x00, 0x60, 0x60, 0x00, 0x00,   // .
+  0x40, 0x20, 0x10, 0x08, 0x04,   // /
+};
+constexpr byte Font5x7_AZaz09_Width = 5;
+constexpr byte Font5x7_AZaz09_Count = sizeof(Font5x7_AZaz09) / Font5x7_AZaz09_Width;
+
+
+byte asciiToGlyphIx[128];
+void initGlyphData()
+{
+  memset(asciiToGlyphIx, 0, sizeof(asciiToGlyphIx));
+
+  byte glyphIx = 1; // glyph 0 is nul
+
+  for (char c = 'A'; c <= 'Z'; ++c, ++glyphIx)
+    asciiToGlyphIx[c] = glyphIx;
+
+  for (char c = 'a'; c <= 'z'; ++c, ++glyphIx)
+    asciiToGlyphIx[c] = glyphIx;
+
+  for (char c = '0'; c <= '@'; ++c, ++glyphIx)
+    asciiToGlyphIx[c] = glyphIx;
+
+  for (char c = '!'; c <= '/'; ++c, ++glyphIx)
+    asciiToGlyphIx[c] = glyphIx;
+}
+
+constexpr byte GlyphWidth = Font5x7_AZaz09_Width;
+constexpr byte NumGlyphs = Font5x7_AZaz09_Count;
+constexpr byte ColWidth = GlyphWidth + 1;
+
+inline byte* oledCellAddr(byte col, byte row)
+{
+  return oled::backBuf + (oled::CfgDispWidth * row) + (ColWidth * col);
+}
+
+void oledDrawGlyph(byte col, byte row, byte glyphIx)
+{
+  const byte* glyphs = Font5x7_AZaz09;
+
+  byte *bufCur = oledCellAddr(col, row);
+  const byte* bufEnd = oled::backBuf + sizeof(oled::backBuf);
+
+  const byte* glyphCur = glyphs + (glyphIx * GlyphWidth);
+  for (int i=0; i<GlyphWidth && (bufCur < bufEnd); ++i, ++bufCur, ++glyphCur)
+  {
+    *bufCur = *glyphCur;
+  }
+}
+
+void oledPrintMono(byte col, byte row, const char* msg)
+{
+  const byte* glyphs = Font5x7_AZaz09;
+
+  if (!msg)
+    return;
+
+  byte *bufCur = oledCellAddr(col, row);
+  const byte* bufEnd = oled::backBuf + sizeof(oled::backBuf);
+
+  for (const char* pc = msg; *pc && (bufCur < bufEnd); ++pc)
+  {
+    const char c = *pc;
+    if (c == ' ')
+    {
+      bufCur += ColWidth;
+    }
+    else if (c == '\n')
+    {
+      ++row;
+      bufCur = oledCellAddr(col, row);
+    }
+    else if (c < ' ')
+    {
+      // nonprinting chars; ignore
+    }
+    else
+    {
+      byte glyphIx = 0;
+      if (c < sizeof(asciiToGlyphIx))
+        glyphIx = asciiToGlyphIx[c];
+
+      const byte* glyphCur = glyphs + (glyphIx * GlyphWidth);
+      for (int i=0; i<GlyphWidth && (bufCur < bufEnd); ++i, ++bufCur, ++glyphCur)
+      {
+        *bufCur = *glyphCur;
+      }
+
+      *bufCur = 0;
+      ++bufCur;
+    }
+  }
+}
+
+
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println("mVDU booting");
+  i2cInit();
+  delay(100);
+
+  pinMode(0, OUTPUT);
+
+  initGlyphData();
+}
 
 void loop()
 {
@@ -541,7 +661,9 @@ void loop()
 
   Serial.println("oledOn...");
   oledStartup();
-  delay(300);
+  oledClearBuf(0x11);
+  oledFlip();
+  delay(250);
 
   //Serial.println("send pattern...");
   //digitalWrite(0, HIGH);
@@ -549,46 +671,10 @@ void loop()
   //Serial.println("sent...");
   //delay(2000);
 
-  Serial.println("clear to 0...");
   oledClearBuf(0);
-  oledFlip();
-  delay(100);
-  
-  Serial.println("clear to 11...");
-  oledClearBuf(0x11);
-  oledFlip();
-  delay(100);
-  
-  Serial.println("clear to aa...");
-  oledClearBuf(0xaa);
-  oledFlip();
-  delay(100);
-  
-  Serial.println("clear to f7...");
-  oledClearBuf(0xf7);
-  oledFlip();
-  delay(100);
-  
-  Serial.println("clear to ff...");
-  oledClearBuf(0xf7);
-  oledFlip();
-  delay(100);
-  
-  Serial.println("A...");
-  oledClearBuf(0);
-
-  byte *bufCur = oled::backBuf;
-  const byte* bufEnd = oled::backBuf + sizeof(oled::backBuf);
-  const byte* ltrCur = Font5x7_AZaz09;
-  const byte* ltrEnd = Font5x7_AZaz09 + sizeof(Font5x7_AZaz09);
-
-  while (bufCur != bufEnd && ltrCur != ltrEnd)
-  {
-    for (int i=0; i<5; ++i, ++ltrCur, ++bufCur)
-      *bufCur = *ltrCur;
-
-    ++bufCur;
-  }
+  oledPrintMono(0, 0, "YoOoOo what $123,765?");
+  oledPrintMono(1, 1, "AaBbCcDdEe\n_-VvWwXxYyZz <=> `");
+  oledPrintMono(0, 3, "don't (oops) looonglooonngloooonnnggggggggg");
 
   oledFlip();
   delay(5000);
